@@ -5,7 +5,7 @@ html body {
 }
 
 div.canvas-row {
-  height: 20px;
+  height: 24px;
   border-collapse: collapse;
   padding: 0px;
   margin: 0px;
@@ -14,33 +14,47 @@ div.canvas-row {
 #canvas {
   border-width: 1px;
   border-left-style: dotted;
-  border-right-style: dotted;
+  border-bottom-style: dotted;
   border-color: #69c;
-  padding: 1px;
-  margin: 1px;
+  padding: 0px 1px 1px 0px;
+  margin: 10px;
   text-align: center;
+  display: inline-block;
 }
 
-/* #canvasContainer {
-    border-width: 1px;
-    border: solid;
-    border-color: #69c;
-    flex-flow: auto;
-} */
+#colorPattern {
+  text-align: left;
+  margin: 10px;
+}
 
 #colorPicker {
-  text-align: center;
+    text-align: left;
+    margin: 10px;
 }
 
 #main {
+    background-color: #efefef;
     text-align: center;
-    width: 100%;
-    height: 100%;
+    display: inline-block;
+    padding: 20px;
+    margin: 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color:#69c;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+#mainContainer {
+    text-align: center;
+
 }
 
 .control {
-  vertical-align: bottom;
+  vertical-align: top;
+  text-align: left;
   padding: 5px;
+  display: inline-block;
 }
 
 div.color-pick {
@@ -58,8 +72,8 @@ div.canvas-cell {
   border-width: 1px;
   border-style: dotted dotted none none;
   border-color: #69c;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   display: inline-block;
   padding: 0px;
   margin: 0px;
