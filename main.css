@@ -1,0 +1,67 @@
+html body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+div.canvas-row {
+  height: 20px;
+  border-collapse: collapse;
+  padding: 0px;
+  margin: 0px;
+}
+
+#canvas {
+  border-width: 1px;
+  border-left-style: dotted;
+  border-right-style: dotted;
+  border-color: #69c;
+  padding: 1px;
+  margin: 1px;
+  text-align: center;
+}
+
+/* #canvasContainer {
+    border-width: 1px;
+    border: solid;
+    border-color: #69c;
+    flex-flow: auto;
+} */
+
+#colorPicker {
+  text-align: center;
+}
+
+#main {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.control {
+  vertical-align: bottom;
+  padding: 5px;
+}
+
+div.color-pick {
+  border-width: 1px;
+  border-style: dotted dotted dotted dotted;
+  border-color: #69c;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  padding: 2px;
+  margin: 1px 2px;
+}
+
+div.canvas-cell {
+  border-width: 1px;
+  border-style: dotted dotted none none;
+  border-color: #69c;
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+  border-collapse: collapse;
+}
