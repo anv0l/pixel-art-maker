@@ -50,6 +50,10 @@ div.canvas-row {
 
 }
 
+#controls {
+    text-align: left;
+}
+
 .control {
   vertical-align: top;
   text-align: left;

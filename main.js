@@ -1,9 +1,15 @@
+const Tools = {
+    Pencil: 1,
+    FillBucket: 2
+}
+
 var canvas = {
     width: 32,
     height: 16,
     cells: [],
     selectedColor: 0,
-    leftClicked: false
+    leftClicked: false,
+    tool: Tools.Pencil
 }
 
 const cell = "cell";
@@ -50,7 +56,7 @@ function addColorPattern() {
         addcolorPatternDivider();
         for (let g = 0; g < 16; g = g + 5) {
             for (let b = 0; b < 16; b = b + 5) {
-                addcolorPatternDiv("#" + componentToHex(r) + componentToHex(r) + componentToHex(g) + componentToHex(g)+ componentToHex(b)+ componentToHex(b));
+                addcolorPatternDiv("#" + componentToHex(r) + componentToHex(r) + componentToHex(g) + componentToHex(g) + componentToHex(b) + componentToHex(b));
             }
 
         }
@@ -108,26 +114,46 @@ function getXY(e) {
     return res;
 }
 
+function floodFill(x, y, baseColor) {
+    //console.log(x, y, baseColor);
+    x = parseInt(x);
+    y = parseInt(y);
+
+    if (!(x >=0 && x < canvas.width && y >=0 && y < canvas.height)) return;
+    if (canvas.cells[y][x] == baseColor) {
+        colorCell(x,y,canvas.selectedColor, false);
+        floodFill(x,y+1,baseColor);
+        floodFill(x,y-1,baseColor);
+        floodFill(x-1,y,baseColor);
+        floodFill(x+1,y,baseColor);
+    }
+}
+
 function onCanvasClick(e) {
     let id = e.target.id;
     if (id.substring(0, cell.length) != cell) return;
 
     let pos = getXY(id);
 
-    colorCell(pos.x, pos.y, canvas.selectedColor);
-
+    if (canvas.tool == Tools.Pencil) {
+        colorCell(pos.x, pos.y, canvas.selectedColor);
+    }
+    else if (canvas.tool = Tools.FillBucket) {
+        floodFill(pos.x, pos.y, canvas.cells[pos.y][pos.x]);
+        saveAll();
+    }
     canvas.leftClicked = false;
 }
 
-function colorCell(x,y,color,save=true) {
+function colorCell(x, y, color, save = true) {
     document.getElementById(cell + x + "_" + y).setAttribute("style", "background-color: " + color);
     canvas.cells[y][x] = color;
-    if (save) {saveAll();}
+    if (save) { saveAll(); }
 }
 
 function onCanvasMove(e) {
     if (!canvas.leftClicked) return;
-    
+
     let id = e.target.id;
     if (id.substring(0, cell.length) != cell) return;
     let pos = getXY(id);
@@ -157,8 +183,8 @@ function onCanvasUp(e) {
 
 function clearCanvas() {
     for (y = 0; y < canvas.height; y++) {
-        for (x = 0; x <canvas.width; x++) {
-            colorCell(x,y,"#fff",false);
+        for (x = 0; x < canvas.width; x++) {
+            colorCell(x, y, "#fff", false);
         }
     }
     saveAll();
@@ -171,12 +197,37 @@ function onColorChange() {
 function loadAll() {
     canvas = JSON.parse(localStorage.getItem(canvasStorage));
 
-    if (canvas == null) {readyDefaultCanvas()} else {readyCanvas();}
+    if (canvas == null) { readyDefaultCanvas() } else { readyCanvas(); }
     canvas.leftClicked = false;
 }
 
 function saveAll() {
     localStorage.setItem(canvasStorage, JSON.stringify(canvas));
+}
+
+function selectTool(e) {
+    var id = e.target.parentNode.id;
+    if (id == "fill") {
+        canvas.tool = Tools.FillBucket;
+    }
+    else if (id == "draw") {
+        canvas.tool = Tools.Pencil;
+    }
+
+    if (id == "controls") return;
+
+    //console.log(document.getElementById("tools").children);
+    let c = document.getElementById("tools").children;
+    for (let i = 0; i < c.length; i++) {
+        console.log(c[i].id, id);
+        if (c[i].id == id) {
+            c[i].setAttribute("style", "background-color: green");
+        }
+        else{
+            c[i].setAttribute("style", "background-color: grey");
+        }
+
+    }
 }
 
 document.onload = loadAll();
@@ -187,3 +238,4 @@ document.getElementById("mainContainer").addEventListener("mousedown", onCanvasD
 document.getElementById("mainContainer").addEventListener("mouseup", onCanvasUp, true);
 document.getElementById("selectedColor").addEventListener("change", onColorChange, true);
 document.getElementById("clearCanvas").addEventListener("click", clearCanvas, true);
+document.getElementById("tools").addEventListener("click", selectTool, false);
